@@ -1,14 +1,17 @@
 from django.http.response import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import FormView
 
 from parser_film.models import Film
 from django.views.generic import ListView
 from . import models, forms, parser
+import requests
+from django.http.response import HttpResponseRedirect
 
 
-class FilmView(ListView):
-    template_name = 'film_index.html'
+class AnimeView(ListView):
+    model = models.Film
+    template_name = 'anime.list.html'
 
 
     def get_queryset(self):
@@ -25,6 +28,6 @@ class ParserAnimeView(FormView):
         form = self.form_class(request.POST)
         if form.is_valid():
             form.parser_data()
-            return HttpResponse(self.success_url)
+            return HttpResponseRedirect(self.success_url)
         else:
             return super(ParserAnimeView, self).post(request, *args, **kwargs)

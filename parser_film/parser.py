@@ -19,8 +19,8 @@ def get_html(url, params=''):
     return r
 
 @csrf_exempt
-def get_data(html):
-    soup = BeautifulSoup(html, html.parser)
+def get_content(html):
+    soup = BeautifulSoup(html, 'html.parser')
     items = soup.find_all('li', class_='nm-content-horizontal-row-item') 
     anime = []
 
@@ -28,7 +28,7 @@ def get_data(html):
         anime.append(
             {
                 'title': item.find('span', class_='nm-collections-title-name'),
-                'image': item.find('a', class_='nm-collections-title nm-collections-link').find('img').get('src')
+                'image': HOST + item.find('a', class_='nm-collections-title nm-collections-link').find('img').get('src')
             }
         )
         return anime
@@ -38,9 +38,9 @@ def parser():
     html = get_html(URL)
     if html.status_code == 200:
         anime = []
-        for  page in renge(0, 4):
+        for  page in range(0, 4):
             html = get_html(URL, params={'page': page})
-            anime.extend(get_data(html.text))
+            anime.extend(get_content(html.text))
             return anime
     else:
         raise ValueError('error in PARSER, babe')

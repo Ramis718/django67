@@ -9,20 +9,20 @@ class Customer_in(models.Model):
     date_created = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return f'{self.name}'
 
 class Tag_in(models.Model):
     name = models.CharField(max_length=100)
 
 
     def __str__(self):
-        return self.name        
+        return f'{self.name}'        
 
 
 class Product_in(models.Model):
     class Meta:
-        verbose_name = 'Продукт'
-        verbose_name_plural = 'Продукты'    
+        verbose_name = 'Product'
+        verbose_name_plural = 'Products'    
     name = models.CharField(max_length=100)
     prise = models.IntegerField()
     descriptions = models.TextField()
@@ -30,9 +30,9 @@ class Product_in(models.Model):
     tags = models.ManyToManyField(Tag_in)
 
     def __str__(self):
-        return self.name
+        return f'{self.name}'
 
-class Order_in(models.Manager):
+class Order_in(models.Model):
     STATUS = (
         ('Processed', 'Processed'),
         ('Left', 'Left'),
